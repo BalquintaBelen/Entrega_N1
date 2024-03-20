@@ -1,3 +1,8 @@
+""" . Modifique el programa siguiente :
+El juego tiene un bug. Si no se inserta ninguna letra para adivinar, el valor de la
+letra es un string vacío "". Para este caso, el juego marca como que es un acierto.
+Modifica el mismo para que indique que es un error en este caso.
+"""
 import random
 # Lista de palabras posibles
 words = ["python", "programación", "computadora", "código", "desarrollo",
@@ -20,6 +25,12 @@ print(f"Palabra: {word_displayed}")
 for i in range(max_attempts):
      # Pedir al jugador que ingrese una letra
      letter = input("Ingresa una letra: ").lower()
+     
+      # Verificar si se ingresó una letra
+     if not letter.isalpha():
+        print("Por favor, ingresa una letra válida.")
+        continue
+     
      # Verificar si la letra ya ha sido adivinada
      if letter in guessed_letters:
          print("Ya has intentado con esa letra. Intenta con otra.")
@@ -44,6 +55,6 @@ for i in range(max_attempts):
      if word_displayed == secret_word:
          print(f"¡Felicidades! Has adivinado la palabra secreta:  {secret_word}")
          break
-     else:
-         print(f"¡Oh no! Has agotado tus {max_attempts} intentos.")
-         print(f"La palabra secreta era: {secret_word}")
+else:
+    print(f"¡Oh no! Has agotado tus {max_attempts} intentos.")
+    print(f"La palabra secreta era: {secret_word}")
