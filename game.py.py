@@ -1,11 +1,16 @@
-""" Modifique el juego para que en lugar de tener un número intentos se tenga un
-número de fallos. En este caso el usuario pierde cuando el número de fallos es
-alcanzado.
-"""
+""" Agregue al juego niveles de dificultad. La variación de la dificultad sería:
+Fácil: En la palabra a adivinar se muestran todas las vocales por defecto.
+Media: Se muestra la primer y la última letra de la palabra.
+Difícil: No se muestra ninguna letra de la palabra. """
+
 import random
+import Niveles
+
 # Lista de palabras posibles
-words = ["python", "programación", "computadora", "código", "desarrollo",
+words = ["python", "programacion", "computadora", "codigo", "desarrollo",
 "inteligencia"]
+
+vocales = ["a","e","i","o","u"]
 
 # Elegir una palabra al azar
 secret_word = random.choice(words)
@@ -16,17 +21,29 @@ guessed_letters = []
 
 print("¡Bienvenido al juego de adivinanzas!")
 print("Estoy pensando en una palabra. ¿Puedes adivinar cuál es?")
-print ("Ojo solamente contas con 10 Fallos.")
 
-word_displayed = "_" * len(secret_word)
-# Mostrarla palabra parcialmente adivinada
-print(f"Palabra: {word_displayed}")
+print(f"Ingrese la dificultad del juego ")
+print(f"1- Facil")   
+print(f"2- Medio")
+print(f"3- Dificil")
+opcion = int(input("Ingrese la opcion: "))
+if (opcion == 1):
+    vocal = Niveles.NivelFacil(vocales,secret_word)
+    print(f"palabra: {vocal}")
+elif (opcion == 2):
+    word_displayed = Niveles.NivelMedio(secret_word) 
+    print(f"palabra: {word_displayed}")
+elif (opcion == 3):
+    word_displayed = Niveles.NivelDificil(secret_word)
+    print(f"palabra: {word_displayed}")
+else:
+    print("Ingrese una opcion valida!.")
+
 i = 0
-while (i < fallos) :                                                  
+while (i < fallos) :                                                     
      # Pedir al jugador que ingrese una letra
      letter = input("Ingresa una letra: ").lower()
 
-     # punto 7 A fijarse que la el valor ingresado sea una letra
      if not letter.isalpha():
         print("Por favor, ingresa una letra válida.")
         continue
@@ -43,14 +60,21 @@ while (i < fallos) :
      else:
          print("Lo siento, la letra no está en la palabra.")
          i = i +1
-         print(f"Errores: {i}")
      # Mostrar la palabra parcialmente adivinada
      letters = []
      for letter in secret_word:
          if letter in guessed_letters:
              letters.append(letter)
+         elif opcion == 1:
+             if ((letter in secret_word) and (letter in vocal)): 
+                 letters.append(letter)
+             else: letters.append("_") 
+         elif (opcion == 2):
+             if ((letter in guessed_letters) or (letter == secret_word[0] or letter == secret_word[-1])):
+                letters.append(letter)
+             else: letters.append("_")    
          else:
-             letters.append("_")
+             letters.append("_")           
      word_displayed = "".join(letters)
      print(f"Palabra: {word_displayed}")
      # Verificar si se ha adivinado la palabra completa
